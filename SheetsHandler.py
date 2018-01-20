@@ -21,7 +21,7 @@ APPLICATION_NAME = 'Trader'
 class sheets(object):
 
     def __init__(self):
-        self.spreadsheetId = '1JjWDWq0KVE2Jq2hl9WmmZE2VkeHxvpsbi2jmaiH0vhE'
+        self.spreadsheetId = '11u_87SxrcLHQ1qdH2dm0adPsBTx_H67s2vd5gu0isB0'
         self.discovery()
 
     def get_credentials(self):
@@ -65,10 +65,11 @@ class sheets(object):
 
         return self.service.spreadsheets().get(spreadsheetId=self.spreadsheetId).execute()
 
-    def check_and_build_sheets(self,data):
+    def check_and_build_sheets(self,p):
         pairs = []
-        for x in data:
-            pairs.append(x)
+
+        for x in p:
+            pairs.append(x[0])
 
         sheet_info = self.get_spreadsheet_info()
 
@@ -77,8 +78,6 @@ class sheets(object):
             sheets.append(sheet['properties']['title'])
 
         sheets = [x for x in pairs if x not in list(set(sheets).intersection(pairs))]
-
-        # print sheets
 
         self.add_sheets(sheets)
 
@@ -106,15 +105,15 @@ class sheets(object):
                     "range": {
                         "sheetId": pair[1],
                         "dimension": "ROWS",
-                        "startIndex": 0,
-                        "endIndex": 1
+                        "startIndex": 1,
+                        "endIndex": 2
                     }
                 }
             }
 
             body["requests"].append(query)
         
-        # self.batch_update(body)
+        self.batch_update(body)
 
     def write_data(self,prices):
 
@@ -126,10 +125,32 @@ class sheets(object):
         for p in prices:
 
             data = {
-              "range": p[0]+"!A1",
+              "range": p[0]+"!A2",
               # "majorDimension": "COLUMNS",
               "values": [
                 [p[1],p[2]]
+              ]
+            }
+
+            body["data"].append(data)
+
+        result = self.service.spreadsheets().values().batchUpdate(
+            spreadsheetId=self.spreadsheetId, body=body).execute()
+
+    def write_headers(self,pairs):
+
+        body = {
+            'valueInputOption':'USER_ENTERED',
+            'data': []
+        }
+
+        for p in pairs:
+
+            data = {
+              "range": p[0]+"!A1",
+              # "majorDimension": "COLUMNS",
+              "values": [
+                ["datetime","price"]
               ]
             }
 
@@ -151,7 +172,7 @@ class sheets(object):
                             "properties": {
                               "title": sheet,
                               "gridProperties": {
-                                "rowCount": 20,
+                                "rowCount": 2,
                                 "columnCount": 2
                               }
                             }
@@ -160,7 +181,7 @@ class sheets(object):
                     ],
                 }
             
-            print self.batch_update(body)
+                print self.batch_update(body)
 
         else:
 
