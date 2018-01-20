@@ -23,15 +23,40 @@ m = connect().requests_retry_session().get('https://www.cryptopia.co.nz/api/GetM
 mp = json.loads(m.text)
 
 s = []
-prices = []
+detailed_prices = []
+summary_prices = [time.time()]
+summary_headers = ["timestamp"]
 
 for d in mp['Data']:
 	for p in pairs:
 		if (d['Label'] in p):
 			s.append(d['Label'])
-			prices.append([d['Label'],time.time(),d['LastPrice']])
+			array = [
+				d['Label'],
+				time.time(),
+				d['SellVolume'],
+				d['Volume'],
+				d['SellBaseVolume'],
+				d['LastPrice'],
+				d['TradePairId'],
+				d['High'],
+				d['BidPrice'],
+				d['Low'],
+				d['BuyBaseVolume'],
+				d['Close'],
+				d['BaseVolume'],
+				d['Open'],
+				d['AskPrice'],
+				d['Change'],
+				d['BuyVolume']
+			]
+			detailed_prices.append(array)
+			summary_headers.append(d['Label'])
+			summary_prices.append(d['LastPrice'])
 
 sheets().check_and_build_sheets(pairs)
-sheets().write_headers(pairs)
-sheets().insert_empty_rows(pairs)
-sheets().write_data(prices)
+sheets().write_detailed_headers(pairs)
+sheets().write_summary_headers(summary_headers)
+sheets().insert_empty_rows()
+sheets().write_summary_data(summary_prices)
+sheets().write_detailed_data(detailed_prices)

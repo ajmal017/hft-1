@@ -21,7 +21,7 @@ APPLICATION_NAME = 'Trader'
 class sheets(object):
 
     def __init__(self):
-        self.spreadsheetId = '1lYWbbC4nsx8AYSW9Ys7Z92qYNiN-aW6Nv9JvI0xoGwk'
+        self.spreadsheetId = '1CgQEyreygvaTI0xIQf7LIUw91ceJBbxR_Kl_zw1XeIc'
         self.discovery()
 
     def get_credentials(self):
@@ -85,25 +85,25 @@ class sheets(object):
 
         return self.service.spreadsheets().batchUpdate(spreadsheetId=self.spreadsheetId, body=body).execute()
 
-    def insert_empty_rows(self,pairs):
+    def insert_empty_rows(self):
 
         sheet_info = self.get_spreadsheet_info()
 
-        for y in pairs:
-            for x in sheet_info['sheets']:
-                if x['properties']['title'] == y[0]:
-                    y.append(x['properties']['sheetId'])
+        sheet_ids = []
+
+        for x in sheet_info['sheets']:
+            sheet_ids.append(x['properties']['sheetId'])
 
         body = {
             "requests": []
         }
 
-        for pair in pairs:
+        for sheet_id in sheet_ids:
 
             query = {
                 "insertDimension": {
                     "range": {
-                        "sheetId": pair[1],
+                        "sheetId": sheet_id,
                         "dimension": "ROWS",
                         "startIndex": 1,
                         "endIndex": 2
@@ -112,10 +112,23 @@ class sheets(object):
             }
 
             body["requests"].append(query)
-        
+
         self.batch_update(body)
 
-    def write_data(self,prices):
+    def write_summary_data(self,prices):
+
+        values = [prices]
+        range_name = 'Summary!A2'
+        body = {
+            'values': values
+        }
+
+        result = self.service.spreadsheets().values().update(
+            spreadsheetId=self.spreadsheetId, range=range_name,
+            valueInputOption='USER_ENTERED', body=body).execute()
+
+
+    def write_detailed_data(self,prices):
 
         body = {
             'valueInputOption':'USER_ENTERED',
@@ -126,9 +139,8 @@ class sheets(object):
 
             data = {
               "range": p[0]+"!A2",
-              # "majorDimension": "COLUMNS",
               "values": [
-                [p[1],p[2]]
+                p[1:]
               ]
             }
 
@@ -137,12 +149,26 @@ class sheets(object):
         result = self.service.spreadsheets().values().batchUpdate(
             spreadsheetId=self.spreadsheetId, body=body).execute()
 
-    def write_headers(self,pairs):
+    def write_summary_headers(self,headers):
+
+        values = [headers]
+        range_name = 'Summary!A1'
+        body = {
+            'values': values
+        }
+
+        result = self.service.spreadsheets().values().update(
+            spreadsheetId=self.spreadsheetId, range=range_name,
+            valueInputOption='USER_ENTERED', body=body).execute()
+        
+    def write_detailed_headers(self,pairs):
 
         body = {
             'valueInputOption':'USER_ENTERED',
             'data': []
         }
+
+        array = ['ts','SellVolume','Volume','SellBaseVolume','LastPrice','TradePairId','High','BidPrice','Low','BuyBaseVolume','Close','BaseVolume','Open','AskPrice','Change','BuyVolume']
 
         for p in pairs:
 
@@ -150,7 +176,7 @@ class sheets(object):
               "range": p[0]+"!A1",
               # "majorDimension": "COLUMNS",
               "values": [
-                ["ts","price"]
+                array
               ]
             }
 
@@ -185,4 +211,4 @@ class sheets(object):
 
         else:
 
-            print "No new sheets"
+            return False
