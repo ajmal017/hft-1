@@ -1,5 +1,5 @@
 import json
-import datetime
+import time
 from SheetsHandler import sheets
 from ConnectionHandler import connect
 
@@ -29,7 +29,7 @@ for d in mp['Data']:
 	for p in pairs:
 		if (d['Label'] in p):
 			s.append(d['Label'])
-			prices.append([d['Label'],str(datetime.datetime.now()),d['LastPrice']])
+			prices.append([d['Label'],time.time(),d['LastPrice']])
 
 sheets().check_and_build_sheets(pairs)
 sheets().write_headers(pairs)

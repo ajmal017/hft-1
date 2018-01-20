@@ -21,7 +21,7 @@ APPLICATION_NAME = 'Trader'
 class sheets(object):
 
     def __init__(self):
-        self.spreadsheetId = '16g8q25DOE7jHN4Xnl9Ynl_3RuDWWDrv2pFmHUKfppLc'
+        self.spreadsheetId = '1lYWbbC4nsx8AYSW9Ys7Z92qYNiN-aW6Nv9JvI0xoGwk'
         self.discovery()
 
     def get_credentials(self):
@@ -150,7 +150,7 @@ class sheets(object):
               "range": p[0]+"!A1",
               # "majorDimension": "COLUMNS",
               "values": [
-                ["datetime","price"]
+                ["ts","price"]
               ]
             }
 
