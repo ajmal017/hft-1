@@ -21,7 +21,7 @@ APPLICATION_NAME = 'Trader'
 class sheets(object):
 
     def __init__(self):
-        self.spreadsheetId = '1CgQEyreygvaTI0xIQf7LIUw91ceJBbxR_Kl_zw1XeIc'
+        self.spreadsheetId = '1x52VCOGLl1YcMPFAHVPXALXIbotJa5pSH0sjP_1dhKE'
         self.discovery()
 
     def get_credentials(self):
