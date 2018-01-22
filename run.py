@@ -18,7 +18,7 @@ from ConnectionHandler import connect
 
 pairs = [['ETN/BTC'],['BTC/USDT'],['ETH/BTC'],['KBR/BTC'],['LUX/BTC'],['ZCL/BTC'],['LTC/BTC'],['XVG/BTC'],['ETN/USDT'],['PROC/BTC'],['DOGE/BTC'],['CAPP/BTC'],['XBY/BTC'],['LINDA/BTC'],['R/BTC'],['NEO/BTC'],['RDD/BTC'],['BWK/BTC'],['DOT/BTC'],['GBX/BTC'],['DBIX/BTC'],['BTX/BTC'],['NMS/BTC'],['BCH/BTC'],['SAGA/BTC'],['POLL/BTC'],['ETH/USDT'],['CRC/BTC'],['MINT/BTC'],['ORME/BTC'],['VOISE/BTC'],['ETC/BTC'],['BTG/BTC'],['SPANK/BTC'],['ADST/BTC']]
 
-m = connect().requests_retry_session().get('https://www.cryptopia.co.nz/api/GetMarkets/BTC/1')
+m = connect().requests_retry_session().get('https://www.cryptopia.co.nz/api/GetMarkets/1')
 mp = json.loads(m.text)
 
 s = []
