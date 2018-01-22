@@ -21,7 +21,7 @@ APPLICATION_NAME = 'Trader'
 class sheets(object):
 
     def __init__(self):
-        self.spreadsheetId = '1eoHBhm6zubsyIsbB8XHiqRP-qsc-Uf5XF-IsA0R8yUQ'
+        self.spreadsheetId = '1W-5OPB9b-ACvG1eSBiFb2XuH6U4oN4ErOn4jqNMcR50'
         self.discovery()
 
     def get_credentials(self):
@@ -115,10 +115,10 @@ class sheets(object):
 
         self.batch_update(body)
 
-    def write_summary_data(self,prices):
+    def write_summary_data(self,prices,sheet):
 
         values = [prices]
-        range_name = 'Summary!A2'
+        range_name = sheet+'!A2'
         body = {
             'values': values
         }
@@ -149,10 +149,10 @@ class sheets(object):
         result = self.service.spreadsheets().values().batchUpdate(
             spreadsheetId=self.spreadsheetId, body=body).execute()
 
-    def write_summary_headers(self,headers):
+    def write_summary_headers(self,headers,sheet):
 
         values = [headers]
-        range_name = 'Summary!A1'
+        range_name = sheet+'!A1'
         body = {
             'values': values
         }
