@@ -1,3 +1,3 @@
 # hft
 
-Every 5 minutes this following spready gets updated with latest prices: https://docs.google.com/spreadsheets/d/1CgQEyreygvaTI0xIQf7LIUw91ceJBbxR_Kl_zw1XeIc/
+Every 5 minutes this following spready gets updated with latest prices: https://docs.google.com/spreadsheets/d/1W-5OPB9b-ACvG1eSBiFb2XuH6U4oN4ErOn4jqNMcR50/
