@@ -53,7 +53,7 @@ for d in mp['Data']:
 			summary_headers.append(d['Label'])
 			summary_prices.append(d['LastPrice'])
 
-sheets().check_and_build_sheets(pairs)
+# sheets().check_and_build_sheets(pairs)
 # sheets().write_detailed_headers(pairs)
 sheets().write_summary_headers(summary_headers)
 sheets().insert_empty_rows()
