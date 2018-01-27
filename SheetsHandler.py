@@ -21,18 +21,14 @@ APPLICATION_NAME = 'Trader'
 class sheets(object):
 
     def __init__(self):
-        self.spreadsheetId = '1W-5OPB9b-ACvG1eSBiFb2XuH6U4oN4ErOn4jqNMcR50'
+        # Below is the actual sheet
+        # self.spreadsheetId = '1W-5OPB9b-ACvG1eSBiFb2XuH6U4oN4ErOn4jqNMcR50'
+        # This is the staging sheet:
+        self.spreadsheetId = '1kcZRxNP7zDLM6SVM6XxC6pA6yDHNiq1M_P49IYD_9YM'
         self.discovery()
 
     def get_credentials(self):
-        """Gets valid user credentials from storage.
-
-        If nothing has been stored, or if the stored credentials are invalid,
-        the OAuth2 flow is completed to obtain the new credentials.
-
-        Returns:
-            Credentials, the obtained credential.
-        """
+        
         home_dir = os.path.expanduser('~')
         credential_dir = os.path.join(home_dir, '.credentials')
         if not os.path.exists(credential_dir):
