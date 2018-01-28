@@ -9,7 +9,7 @@ class crypto(object):
 
 	def __init__(self):
 		sheets().insert_empty_rows()
-		# cryptopia().write()
+		cryptopia().write()
 		binance().write()
 
 crypto()
