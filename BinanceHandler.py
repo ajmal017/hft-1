@@ -26,6 +26,6 @@ class binance(object):
 
 					self.data[d['symbol']] = {"price":d['price'],"timestamp":time.time(),"pair":d['symbol']}
 
-		# sheets().write_summary_headers(self.summary_headers,'Binance')
-		# sheets().write_summary_data(self.summary_prices,'Binance')
+		sheets().write_summary_headers(self.summary_headers,'Binance')
+		sheets().write_summary_data(self.summary_prices,'Binance')
 		db().insert_new_price([self.data],'binance')
