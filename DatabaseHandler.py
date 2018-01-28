@@ -18,8 +18,14 @@ class db(object):
 	def insert_new_price(self,data,exchange):
 		for d in data:
 			for key, value in d.iteritems():
-				result = self.cur.execute("INSERT INTO LastPrice (_ts,price,pair,exchange) VALUES (%s,%s,%s,%s);",(str(value["timestamp"]),str(value["price"]),value["pair"],exchange))
+				previous_price = float(self.calculate_price_change(value["pair"],exchange))
+				result = self.cur.execute("INSERT INTO LastPrice (_ts,price,pair,exchange,previous_price) VALUES (%s,%s,%s,%s,%s);",(str(value["timestamp"]),str(value["price"]),value["pair"],exchange,previous_price))
 				self.db.commit()
+
+	def calculate_price_change(self,pair,exchange):
+		# print 'SELECT price FROM LastPrice WHERE id = ( SELECT max(id) FROM LastPrice WHERE 1=1 AND pair = "{p}" AND exchange = "{e}") AND pair = "{p}" AND exchange = "{e}";'.format(p=pair, e=exchange)
+		self.cur.execute('SELECT price FROM LastPrice WHERE id = ( SELECT max(id) FROM LastPrice WHERE 1=1 AND pair = "{p}" AND exchange = "{e}") AND pair = "{p}" AND exchange = "{e}";'.format(p=pair, e=exchange))
+		return self.cur.fetchone()[0]
 
 	def close(self):
 		self.db.close()
