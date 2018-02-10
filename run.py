@@ -8,8 +8,8 @@ from CryptopiaHandler import cryptopia
 class crypto(object):
 
 	def __init__(self):
-		sheets().insert_empty_rows()
+		# sheets().insert_empty_rows()
 		cryptopia().write()
-		binance().write()
+		# binance().write()
 
 crypto()
