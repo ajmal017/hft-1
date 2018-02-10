@@ -26,6 +26,6 @@ class cryptopia(object):
 
 					self.data[d['Label']] = {"price":d['LastPrice'],"timestamp":time.time(),"pair":d['Label']}
 
-		sheets().write_summary_headers(self.summary_headers,'cryptopia')
-		sheets().write_summary_data(self.summary_prices,'cryptopia')
+		# sheets().write_summary_headers(self.summary_headers,'cryptopia')
+		# sheets().write_summary_data(self.summary_prices,'cryptopia')
 		db().insert_new_price([self.data],'cryptopia')
