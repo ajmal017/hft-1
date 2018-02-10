@@ -16,6 +16,7 @@ class db(object):
 			print row[0]
 
 	def insert_new_price(self,data,exchange):
+		print "Inserting new prices for "+exchange
 		for d in data:
 			for key, value in d.iteritems():
 				previous_price = float(self.calculate_price_change(value["pair"],exchange))
